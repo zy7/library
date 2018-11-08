@@ -22,7 +22,7 @@
         app:btnTextPadding="10dp"
         app:btnBackground="@drawable/btn_bg"
         app:dividerHeight="1dp"
-        app:dividerColor="@color/colorAccent"
+        app:dividerLine="@color/colorAccent"
         />
 
     <com.zy.library.widget.CountdownTextView
@@ -40,7 +40,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         app:dividerHeight="1dp"
-        app:dividerColor="@color/colorPrimaryDark">
+        app:dividerLine="@color/colorPrimaryDark">
 
         <TextView
             android:layout_width="0dp"

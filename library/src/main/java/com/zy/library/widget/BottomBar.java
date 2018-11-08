@@ -59,7 +59,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
         try {
             mDividerHeight = a.getDimensionPixelOffset(R.styleable.BottomBar_dividerHeight, 0);
-            mDivider = a.getColor(R.styleable.BottomBar_divider, Color.LTGRAY);
+            mDivider = a.getColor(R.styleable.BottomBar_dividerLine, Color.LTGRAY);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

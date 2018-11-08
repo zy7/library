@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="dividerHeight"          format="dimension" />
-    <attr name="divider"                format="color" />
+    <attr name="dividerLine"                format="color" />
 
     <declare-styleable name="TitleBar">
         <attr name="immersive"              format="boolean" />
@@ -17,12 +17,12 @@
         <attr name="leftBtnDrawable"        format="reference" />
         <attr name="leftBtnText"            format="string" />
         <attr name="dividerHeight" />
-        <attr name="divider" />
+        <attr name="dividerLine" />
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
         <attr name="dividerHeight" />
-        <attr name="divider" />
+        <attr name="dividerLine" />
     </declare-styleable>
 
     <declare-styleable name="CountdownTextView">
