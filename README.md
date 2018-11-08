@@ -17,7 +17,7 @@ allprojects {
 implementation 'com.github.zy7:library:1.?.?'
 ```
 
-TitleBar
-BottomBar
-CountDownTextView
+TitleBar，
+BottomBar，
+CountDownTextView，
 SuperRadioGroup
