@@ -75,7 +75,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     private int     mDividerHeight;
     @ColorInt
-    private int     mDividerColor;
+    private int mDivider;
 
     private Paint   mPaint;
 
@@ -105,7 +105,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             mLeftBtnText = a.getString(R.styleable.TitleBar_leftBtnText);
             mImmersive = a.getBoolean(R.styleable.TitleBar_immersive, false);
             mDividerHeight = a.getDimensionPixelOffset(R.styleable.TitleBar_dividerHeight, 0);
-            mDividerColor = a.getColor(R.styleable.TitleBar_dividerColor, mTitleColor);
+            mDivider = a.getColor(R.styleable.TitleBar_divider, mTitleColor);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -120,7 +120,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         }
         if(mDividerHeight > 0) {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            mPaint.setColor(mDividerColor);
+            mPaint.setColor(mDivider);
             setWillNotDraw(false);
         }
         initView(context);

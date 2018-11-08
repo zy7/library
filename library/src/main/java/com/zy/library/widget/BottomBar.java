@@ -41,7 +41,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
 
     private int     mDividerHeight;
     @ColorInt
-    private int     mDividerColor;
+    private int     mDivider;
 
     private Paint   mPaint;
 
@@ -59,7 +59,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
         try {
             mDividerHeight = a.getDimensionPixelOffset(R.styleable.BottomBar_dividerHeight, 0);
-            mDividerColor  = a.getColor(R.styleable.BottomBar_dividerColor, Color.LTGRAY);
+            mDivider = a.getColor(R.styleable.BottomBar_divider, Color.LTGRAY);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -70,7 +70,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
 
         if(mDividerHeight > 0) {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            mPaint.setColor(mDividerColor);
+            mPaint.setColor(mDivider);
             setWillNotDraw(false);
         }
     }
