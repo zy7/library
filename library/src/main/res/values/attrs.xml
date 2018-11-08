@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="dividerHeight"          format="dimension" />
+    <attr name="dividerColor"           format="color" />
+
+    <declare-styleable name="TitleBar">
+        <attr name="immersive"              format="boolean" />
+        <attr name="title"                  format="string" />
+        <attr name="titleSize"              format="dimension" />
+        <attr name="titleColor"             format="color" />
+        <attr name="subTitleSize"           format="dimension" />
+        <attr name="subTitleColor"          format="color" />
+        <attr name="btnTextSize"            format="dimension" />
+        <attr name="btnTextColor"           format="color" />
+        <attr name="btnTextPadding"         format="dimension" />
+        <attr name="btnBackground"          format="reference" />
+        <attr name="leftBtnDrawable"        format="reference" />
+        <attr name="leftBtnText"            format="string" />
+        <attr name="dividerHeight" />
+        <attr name="dividerColor" />
+    </declare-styleable>
+
+    <declare-styleable name="BottomBar">
+        <attr name="dividerHeight" />
+        <attr name="dividerColor" />
+    </declare-styleable>
+
+    <declare-styleable name="CountdownTextView">
+        <attr name="interval" format="integer"/>
+        <attr name="totalTimes" format="integer" />
+    </declare-styleable>
+
+</resources>

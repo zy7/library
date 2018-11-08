@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.zy.library.widget.TitleBar
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        app:leftBtnText="Git"
+        app:title="@string/app_name"
+        app:titleColor="#f00"
+        app:titleSize="15sp"
+        app:subTitleColor="#000"
+        app:subTitleSize="12sp"
+        app:btnTextSize="14sp"
+        app:btnTextColor="@color/colorPrimaryDark"
+        app:btnTextPadding="10dp"
+        app:btnBackground="@drawable/btn_bg"
+        app:dividerHeight="1dp"
+        app:dividerColor="@color/colorAccent"
+        />
+
+    <com.zy.library.widget.CountdownTextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@drawable/selector_color_bottombar_text"
+        android:text="获取验证码"
+        app:interval="1000"
+        app:totalTimes="10"/>
+
+    <com.zy.library.widget.BottomBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:dividerHeight="1dp"
+        app:dividerColor="@color/colorPrimaryDark">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/selector_ic_dinning"
+            android:textColor="@drawable/selector_color_bottombar_text"
+            android:text="测试1"/>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/tab_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/selector_ic_order"
+                />
+            <TextView
+                android:id="@+id/tab_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/selector_color_bottombar_text"
+                android:text="测试2"
+                />
+        </LinearLayout>
+    </com.zy.library.widget.BottomBar>
+
+</RelativeLayout>
