@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="dividerHeight"          format="dimension" />
+    <attr name="dividerHeight"              format="dimension" />
     <attr name="dividerLine"                format="color" />
 
     <declare-styleable name="TitleBar">
@@ -26,8 +26,8 @@
     </declare-styleable>
 
     <declare-styleable name="CountdownTextView">
-        <attr name="interval" format="integer"/>
-        <attr name="totalTimes" format="integer" />
+        <attr name="interval"               format="integer"/>
+        <attr name="totalTimes"             format="integer" />
     </declare-styleable>
 
 </resources>
