@@ -28,19 +28,24 @@ import java.util.LinkedList;
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
     private static final int DEFAULT_TITLE_COLOR = Color.WHITE;
-    private static final int DEFAULT_TITLE_SIZE = dip2px(18);
-    private static final int DEFAULT_SUB_TITLE_SIZE = dip2px(12);
-    private static final int DEFAULT_BTN_TEXT_SIZE = dip2px(15);
-    private static final int DEFAULT_BTN_PADDING = dip2px(5);
-    private static final int DEFAULT_TITLE_BAR_HEIGHT = dip2px(48);
+    private static final int DEFAULT_TITLE_SIZE = sp2px(18);
+    private static final int DEFAULT_SUB_TITLE_SIZE = sp2px(12);
+    private static final int DEFAULT_BTN_TEXT_SIZE = sp2px(15);
+    private static final int DEFAULT_BTN_PADDING = dp2px(5);
+    private static final int DEFAULT_TITLE_BAR_HEIGHT = dp2px(48);
 
     private static final String STATUS_BAR_HEIGHT_RES_NAME = "status_bar_height";
 
     private TextView mLeftTextView;
+
     private LinearLayout mRightLayout;
+
     private LinearLayout mCenterLayout;
+
     private TextView mCenterTextView;
+
     private TextView mSubTitleTextView;
+
     private View mCustomCenterView;
 
     private boolean mImmersive;
@@ -142,7 +147,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         if(mBtnBackground != null)
             mLeftTextView.setBackgroundDrawable(mBtnBackground);
         if(mLeftBtnDrawable != null && !TextUtils.isEmpty(mLeftBtnText)) {
-            mLeftTextView.setCompoundDrawablePadding(dip2px(2));
+            mLeftTextView.setCompoundDrawablePadding(dp2px(2));
             mLeftTextView.setText(mLeftBtnText);
             mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
             mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(mLeftBtnDrawable, null, null, null);
@@ -486,8 +491,13 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         }
     }
 
-    public static int dip2px(int dpValue) {
+    public static int dp2px(int dpValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static int sp2px(int dpValue) {
+        final float scale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (dpValue * scale + 0.5f);
     }
 

@@ -30,4 +30,15 @@
         <attr name="totalTimes"             format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="SideBar">
+        <attr name="sectionTouchedBackground"       format="reference|color"/>
+        <attr name="sectionTouchedTextColor"        format="color"/>
+        <attr name="sectionTextColor"               format="color"/>
+        <attr name="sectionTextSize"                format="dimension"/>
+        <attr name="sectionMargin"                  format="dimension"/>
+        <attr name="sectionTextArray"               format="reference"/>
+        <attr name="sectionTopDrawable"             format="reference"/>
+        <attr name="sectionBottomDrawable"          format="reference"/>
+    </declare-styleable>
+    
 </resources>
