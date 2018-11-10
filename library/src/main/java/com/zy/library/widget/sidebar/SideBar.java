@@ -11,13 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
+import android.widget.LinearLayout;
 
 import com.zy.library.R;
 
-public class SideBar extends View {
+public class SideBar extends LinearLayout {
 
     private static final String DEFAULT_ONE_LETTER_MEASURE_WIDTH_CASE = "M";
 
@@ -90,8 +91,8 @@ public class SideBar extends View {
             }
         }
 
-        initData();
         initPaint();
+        initData();
     }
 
     private void initPaint() {
@@ -132,17 +133,21 @@ public class SideBar extends View {
         int wMode = MeasureSpec.getMode(widthMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
 
-
         int hMode = MeasureSpec.getMode(heightMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
+        final int paddingTop = getPaddingTop();
+        final int paddingBottom = getPaddingBottom();
+        final int paddingLeft = getPaddingLeft();
+        final int paddingRight = getPaddingRight();
+
         if(wMode != MeasureSpec.EXACTLY) {
-            width = width + (int)(mSectionWidth + 0.5f);
+            width = paddingLeft + paddingRight + (int)(mSectionWidth + 0.5f);
         }
 
         if(hMode != MeasureSpec.EXACTLY) {
             float contentHeight = mTotalSectionNum * (mSectionHeight + mSectionMargin) - mSectionMargin;
-            height = height + contentHeight > 0 ? (int)(contentHeight + 0.5f) : 0;
+            height = paddingTop + paddingBottom + (contentHeight > 0 ? (int)(contentHeight + 0.5f) : 0);
         }
 
         setMeasuredDimension(width, height);
@@ -159,8 +164,19 @@ public class SideBar extends View {
         final int rightPadding = getPaddingRight();
         final int bottomPadding = getPaddingBottom();
 
-        for(int i=0; i<mTotalSectionNum; i++) {
 
+        final int middleWidth = width / 2;
+        float lastY = topPadding;
+        for(int i=0; i<mTotalSectionNum; i++) {
+            float y = topPadding + mSectionHeight * (i + 1) + mSectionMargin * i;
+            if(touchY > lastY && touchY < y) {
+                Log.i("ivan", "y:" + y +",touchY:" + touchY + ",lastY:" + lastY);
+                mTextPaint.setColor(mSectionTouchedTextColor);
+            } else {
+                mTextPaint.setColor(mSectionTextColor);
+            }
+            canvas.drawText(mSectionTextArray[i].toString(), middleWidth, y, mTextPaint);
+            lastY = y;
         }
     }
 
@@ -172,9 +188,10 @@ public class SideBar extends View {
                 touchX = -1;
                 touchY = -1;
                 break;
-             default:
-                 touchX = getX();
-                 touchY = getY();
+            default:
+                touchX = event.getX();
+                touchY = event.getY();
+                invalidate();
         }
         return true;
     }
