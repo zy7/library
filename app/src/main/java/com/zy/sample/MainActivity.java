@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         CountdownTextView tv = findViewById(R.id.textView);
         tv.setOnCountDownListener(new CountdownTextView.OnCountDownListener() {
             @Override
+            public boolean onPreIntercept() {
+                return false;
+            }
+
+            @Override
             public void onCountDown(CountdownTextView view, int leftCountDown) {
                 view.setText("重新发送" + leftCountDown + " s");
             }

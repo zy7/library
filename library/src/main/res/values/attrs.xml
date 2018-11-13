@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="dividerHeight"              format="dimension" />
+    <attr name="dividerLineHeight"          format="dimension" />
     <attr name="dividerLine"                format="color" />
 
     <declare-styleable name="TitleBar">
@@ -16,12 +16,12 @@
         <attr name="btnBackground"          format="reference" />
         <attr name="leftBtnDrawable"        format="reference" />
         <attr name="leftBtnText"            format="string" />
-        <attr name="dividerHeight" />
+        <attr name="dividerLineHeight" />
         <attr name="dividerLine" />
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
-        <attr name="dividerHeight" />
+        <attr name="dividerLineHeight" />
         <attr name="dividerLine" />
     </declare-styleable>
 

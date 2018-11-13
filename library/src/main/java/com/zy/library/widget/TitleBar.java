@@ -24,7 +24,7 @@ import com.zy.library.R;
 import java.util.LinkedList;
 
 /**
- * version:1.0.1
+ * version:1.0.2
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
     private static final int DEFAULT_TITLE_COLOR = Color.WHITE;
@@ -78,9 +78,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     private String  mLeftBtnText;
 
-    private int     mDividerHeight;
+    private int mDividerLineHeight;
     @ColorInt
-    private int mDivider;
+    private int mDividerLine;
 
     private Paint   mPaint;
 
@@ -109,8 +109,8 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             mLeftBtnDrawable = a.getDrawable(R.styleable.TitleBar_leftBtnDrawable);
             mLeftBtnText = a.getString(R.styleable.TitleBar_leftBtnText);
             mImmersive = a.getBoolean(R.styleable.TitleBar_immersive, false);
-            mDividerHeight = a.getDimensionPixelOffset(R.styleable.TitleBar_dividerHeight, 0);
-            mDivider = a.getColor(R.styleable.TitleBar_dividerLine, mTitleColor);
+            mDividerLineHeight = a.getDimensionPixelOffset(R.styleable.TitleBar_dividerLineHeight, 0);
+            mDividerLine = a.getColor(R.styleable.TitleBar_dividerLine, mTitleColor);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -123,9 +123,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         if (mImmersive) {
             mStatusBarHeight = getStatusBarHeight();
         }
-        if(mDividerHeight > 0) {
+        if(mDividerLineHeight > 0) {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            mPaint.setColor(mDivider);
+            mPaint.setColor(mDividerLine);
             setWillNotDraw(false);
         }
         initView(context);
@@ -447,10 +447,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int height;
         if (heightMode != MeasureSpec.EXACTLY) {
-            height = mHeight + mDividerHeight + mStatusBarHeight;
+            height = mHeight + mDividerLineHeight + mStatusBarHeight;
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY);
         } else {
-            height = MeasureSpec.getSize(heightMeasureSpec) + mDividerHeight + mStatusBarHeight;
+            height = MeasureSpec.getSize(heightMeasureSpec) + mDividerLineHeight + mStatusBarHeight;
         }
         mScreenWidth = MeasureSpec.getSize(widthMeasureSpec);
         measureChild(mLeftTextView, widthMeasureSpec, heightMeasureSpec);
@@ -484,10 +484,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mPaint != null && mDividerHeight >0) {
+        if(mPaint != null && mDividerLineHeight >0) {
             int width = canvas.getWidth();
             int height = canvas.getHeight();
-            canvas.drawRect(0, height - mDividerHeight, width, width, mPaint);
+            canvas.drawRect(0, height - mDividerLineHeight, width, width, mPaint);
         }
     }
 

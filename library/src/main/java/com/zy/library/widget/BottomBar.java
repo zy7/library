@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import com.zy.library.R;
 
 /**
- * version:1.0.1
+ * version:1.0.2
  */
 public class BottomBar extends LinearLayout implements View.OnClickListener {
 
@@ -39,9 +39,9 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
 
     private OnSelectedListener mSelectListener;
 
-    private int     mDividerHeight;
+    private int mDividerLineHeight;
     @ColorInt
-    private int     mDivider;
+    private int mDividerLine;
 
     private Paint   mPaint;
 
@@ -58,8 +58,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
         try {
-            mDividerHeight = a.getDimensionPixelOffset(R.styleable.BottomBar_dividerHeight, 0);
-            mDivider = a.getColor(R.styleable.BottomBar_dividerLine, Color.LTGRAY);
+            mDividerLineHeight = a.getDimensionPixelOffset(R.styleable.BottomBar_dividerLineHeight, 0);
+            mDividerLine = a.getColor(R.styleable.BottomBar_dividerLine, Color.LTGRAY);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -68,9 +68,9 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
             }
         }
 
-        if(mDividerHeight > 0) {
+        if(mDividerLineHeight > 0) {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            mPaint.setColor(mDivider);
+            mPaint.setColor(mDividerLine);
             setWillNotDraw(false);
         }
     }
@@ -206,10 +206,10 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mPaint != null && mDividerHeight > 0) {
+        if(mPaint != null && mDividerLineHeight > 0) {
             int width = canvas.getWidth();
             int height = canvas.getHeight();
-            canvas.drawRect(0, 0, width, mDividerHeight, mPaint);
+            canvas.drawRect(0, 0, width, mDividerLineHeight, mPaint);
         }
     }
 

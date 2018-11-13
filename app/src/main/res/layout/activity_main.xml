@@ -21,7 +21,7 @@
         app:btnTextColor="@color/colorPrimaryDark"
         app:btnTextPadding="10dp"
         app:btnBackground="@drawable/btn_bg"
-        app:dividerHeight="1dp"
+        app:dividerLineHeight="1dp"
         app:dividerLine="@color/colorAccent"
         />
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:dividerHeight="1dp"
+        app:dividerLineHeight="1dp"
         app:dividerLine="@color/colorPrimaryDark">
 
         <TextView
