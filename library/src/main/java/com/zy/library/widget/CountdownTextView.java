@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import com.zy.library.R;
 
 /**
- * version:1.0.1
+ * version:1.0.2
  */
 public class CountdownTextView extends AppCompatTextView implements Runnable {
     /** 次数 */
@@ -84,7 +84,8 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
 
     @Override
     public boolean performClick() {
-        startCount();
+        if(mOnCountDownListener == null || !mOnCountDownListener.onPreIntercept())
+            startCount();
         return super.performClick();
     }
 
@@ -118,6 +119,7 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
     }
 
     public interface OnCountDownListener {
+        boolean onPreIntercept();
         void onCountDown(CountdownTextView view, int leftCountDown);
         void onCountFinish(CountdownTextView view);
     }
