@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import com.zy.library.R;
 
 /**
- * version:1.0.2
+ * version:1.0.3
  */
 public class CountdownTextView extends AppCompatTextView implements Runnable {
     /** 次数 */
@@ -65,10 +65,6 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
         this.mOnCountDownListener = onCountDownListener;
     }
 
-    public synchronized final void cancel() {
-        mCancelled = true;
-    }
-
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -82,14 +78,10 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
         super.onDetachedFromWindow();
     }
 
-    @Override
-    public boolean performClick() {
-        if(mOnCountDownListener == null || !mOnCountDownListener.onPreIntercept())
-            startCount();
-        return super.performClick();
-    }
+    public void start() {
+        if(!isEnabled())
+            return;
 
-    private void startCount() {
         setEnabled(false);
         mCancelled = false;
         mRecordText = getText();
@@ -97,7 +89,11 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
         post(this);
     }
 
-    private void endCount() {
+    public synchronized final void cancel() {
+        mCancelled = true;
+    }
+
+    private void reset() {
         mCancelled = false;
         setText(mRecordText);
         setEnabled(true);
@@ -106,7 +102,7 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
     @Override
     public void run() {
         if (mLeftCountDown <= 0 || mCancelled) {
-            endCount();
+            reset();
             if(mOnCountDownListener != null)
                 mOnCountDownListener.onCountFinish(this);
         } else {
@@ -119,7 +115,6 @@ public class CountdownTextView extends AppCompatTextView implements Runnable {
     }
 
     public interface OnCountDownListener {
-        boolean onPreIntercept();
         void onCountDown(CountdownTextView view, int leftCountDown);
         void onCountFinish(CountdownTextView view);
     }
