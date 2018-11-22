@@ -24,14 +24,14 @@ import com.zy.library.R;
 import java.util.LinkedList;
 
 /**
- * version:1.0.2
+ * version:1.0.3
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
     private static final int DEFAULT_TITLE_COLOR = Color.WHITE;
     private static final int DEFAULT_TITLE_SIZE = sp2px(18);
     private static final int DEFAULT_SUB_TITLE_SIZE = sp2px(12);
     private static final int DEFAULT_BTN_TEXT_SIZE = sp2px(15);
-    private static final int DEFAULT_BTN_PADDING = dp2px(5);
+    private static final int DEFAULT_BTN_PADDING = dp2px(10);
     private static final int DEFAULT_TITLE_BAR_HEIGHT = dp2px(48);
 
     private static final String STATUS_BAR_HEIGHT_RES_NAME = "status_bar_height";
@@ -200,6 +200,8 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     public void setLeftImageResource(@DrawableRes int resId) {
         mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+        if(mLeftTextView.getVisibility() != View.VISIBLE)
+            mLeftTextView.setVisibility(View.VISIBLE);
     }
 
     public void setLeftClickListener(OnClickListener l) {
@@ -208,10 +210,14 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     public void setLeftText(CharSequence title) {
         mLeftTextView.setText(title);
+        if(mLeftTextView.getVisibility() != View.VISIBLE)
+            mLeftTextView.setVisibility(View.VISIBLE);
     }
 
     public void setLeftText(int resid) {
         mLeftTextView.setText(resid);
+        if(mLeftTextView.getVisibility() != View.VISIBLE)
+            mLeftTextView.setVisibility(View.VISIBLE);
     }
 
     public void setLeftTextSize(float size) {
@@ -346,8 +352,12 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
      * @param index the position at which to add the action
      */
     public View addAction(Action action, int index) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params;
+        if(action instanceof ImageAction) {
+            params = new LinearLayout.LayoutParams(mHeight, LayoutParams.MATCH_PARENT);
+        } else {
+            params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        }
         View view = inflateAction(action);
         mRightLayout.addView(view, index, params);
         return view;
@@ -423,6 +433,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
                     text.setTextColor(mBtnTextColor);
                 }
             }
+            text.setMinWidth(mHeight);
             text.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
             view = text;
         } else {
@@ -450,7 +461,8 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             height = mHeight + mDividerLineHeight + mStatusBarHeight;
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY);
         } else {
-            height = MeasureSpec.getSize(heightMeasureSpec) + mDividerLineHeight + mStatusBarHeight;
+            mHeight = MeasureSpec.getSize(heightMeasureSpec);
+            height = mHeight + mDividerLineHeight + mStatusBarHeight;
         }
         mScreenWidth = MeasureSpec.getSize(widthMeasureSpec);
         measureChild(mLeftTextView, widthMeasureSpec, heightMeasureSpec);
