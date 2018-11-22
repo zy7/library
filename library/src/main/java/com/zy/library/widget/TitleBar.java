@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -24,7 +25,7 @@ import com.zy.library.R;
 import java.util.LinkedList;
 
 /**
- * version:1.0.3
+ * version:1.0.4
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
     private static final int DEFAULT_TITLE_COLOR = Color.WHITE;
@@ -144,21 +145,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         mLeftTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mBtnTextSize);
         mLeftTextView.setSingleLine();
         mLeftTextView.setGravity(Gravity.CENTER_VERTICAL);
+        setLeftButton(mLeftBtnText, mLeftBtnDrawable);
         if(mBtnBackground != null)
             mLeftTextView.setBackgroundDrawable(mBtnBackground);
-        if(mLeftBtnDrawable != null && !TextUtils.isEmpty(mLeftBtnText)) {
-            mLeftTextView.setCompoundDrawablePadding(dp2px(2));
-            mLeftTextView.setText(mLeftBtnText);
-            mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
-            mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(mLeftBtnDrawable, null, null, null);
-        } else if(mLeftBtnDrawable != null) {
-            mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(mLeftBtnDrawable, null, null, null);
-        } else if(!TextUtils.isEmpty(mLeftBtnText)) {
-            mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
-            mLeftTextView.setText(mLeftBtnText);
-        } else {
-            mLeftTextView.setVisibility(View.GONE);
-        }
 
         mCenterTextView = new TextView(context);
         mSubTitleTextView = new TextView(context);
@@ -198,26 +187,41 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         setMeasuredDimension(getMeasuredWidth(), mHeight);
     }
 
-    public void setLeftImageResource(@DrawableRes int resId) {
-        mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
-        if(mLeftTextView.getVisibility() != View.VISIBLE)
-            mLeftTextView.setVisibility(View.VISIBLE);
-    }
-
     public void setLeftClickListener(OnClickListener l) {
         mLeftTextView.setOnClickListener(l);
     }
 
-    public void setLeftText(CharSequence title) {
-        mLeftTextView.setText(title);
-        if(mLeftTextView.getVisibility() != View.VISIBLE)
-            mLeftTextView.setVisibility(View.VISIBLE);
+    public void setLeftButton(@StringRes int text, Drawable d) {
+        setLeftButton(getContext().getString(text), d);
     }
 
-    public void setLeftText(int resid) {
-        mLeftTextView.setText(resid);
-        if(mLeftTextView.getVisibility() != View.VISIBLE)
+    public void setLeftButton(@StringRes int text, @DrawableRes int d) {
+        setLeftButton(getContext().getString(text), getContext().getResources().getDrawable(d));
+    }
+
+    public void setLeftButton(String text, @DrawableRes int d) {
+        setLeftButton(text, getContext().getResources().getDrawable(d));
+    }
+
+    public void setLeftButton(String text, Drawable d) {
+        mLeftBtnText = text;
+        mLeftBtnDrawable = d;
+        if(d != null && !TextUtils.isEmpty(text)) {
+            mLeftTextView.setCompoundDrawablePadding(dp2px(2));
+            mLeftTextView.setText(text);
+            mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
+            mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
             mLeftTextView.setVisibility(View.VISIBLE);
+        } else if(d != null) {
+            mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+            mLeftTextView.setVisibility(View.VISIBLE);
+        } else if(!TextUtils.isEmpty(text)) {
+            mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
+            mLeftTextView.setText(text);
+            mLeftTextView.setVisibility(View.VISIBLE);
+        } else {
+            mLeftTextView.setVisibility(View.GONE);
+        }
     }
 
     public void setLeftTextSize(float size) {
