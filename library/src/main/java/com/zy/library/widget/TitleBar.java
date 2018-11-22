@@ -191,6 +191,22 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         mLeftTextView.setOnClickListener(l);
     }
 
+    public void setLeftButton(String text) {
+        setLeftButton(text, null);
+    }
+
+    public void setLeftButton(@StringRes int text) {
+        setLeftButton(text, null);
+    }
+
+    public void setLeftButtonResource(@DrawableRes int d) {
+        setLeftButton(null, d);
+    }
+
+    public void setLeftButtonDrawable(Drawable d) {
+        setLeftButton(null, d);
+    }
+
     public void setLeftButton(@StringRes int text, Drawable d) {
         setLeftButton(getContext().getString(text), d);
     }
