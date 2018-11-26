@@ -23,7 +23,7 @@ import com.zy.library.widget.square.SquareImageView;
 import com.zy.library.widget.square.SquareTextView;
 
 /**
- * version:1.0.0
+ * version:1.0.1
  */
 public class SideBar extends LinearLayout {
 
@@ -137,7 +137,8 @@ public class SideBar extends LinearLayout {
 
     private TextView createTextSection() {
         SquareTextView tv = new SquareTextView(getContext());
-        tv.setBackgroundDrawable(mSectionBackground.getConstantState().newDrawable());
+        if(mSectionBackground != null)
+            tv.setBackgroundDrawable(mSectionBackground.getConstantState().newDrawable());
         tv.setGravity(Gravity.CENTER);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSectionTextSize);
         tv.setTextColor(mSectionTextColor);
@@ -189,18 +190,22 @@ public class SideBar extends LinearLayout {
                     totalH += getChildAt(i).getMeasuredHeight();
                 }
                 int totalLeft = h - totalH - getPaddingTop() - getPaddingBottom();
-                if(totalLeft <= 0)
-                    return;
-                int margin = totalLeft/(count - 1);
-                int leftMargin = totalLeft%(count - 1);
-                for(int i=0; i<count; i++) {
-                    LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
-                    if(i == 1) {
-                        lp.setMargins(0, leftMargin/2, 0, 0);
-                    } else {
-                        lp.setMargins(0, margin, 0, 0);
+                if(totalLeft > 0) {
+                    int margin = totalLeft / (count - 1);
+                    int leftMargin = totalLeft % (count - 1);
+                    for (int i = 0; i < count; i++) {
+                        LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
+                        if (i == 0) {
+                            lp.setMargins(0, leftMargin / 2, 0, 0);
+                        } else {
+                            lp.setMargins(0, margin, 0, 0);
+                        }
                     }
-
+                } else {
+                    for (int i = 0; i < count; i++) {
+                        LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
+                        lp.setMargins(0, 0, 0, 0);
+                    }
                 }
             } else {
                 int w = getMeasuredWidth();
@@ -209,16 +214,21 @@ public class SideBar extends LinearLayout {
                     totalW += getChildAt(i).getMeasuredWidth();
                 }
                 int totalLeft = w - totalW - getPaddingLeft() - getPaddingRight();
-                if(totalLeft <= 0)
-                    return;
-                int margin = totalLeft/(count - 1);
-                int leftMargin = totalLeft%(count - 1);
-                for(int i=1; i<count; i++) {
-                    LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
-                    if(i == 1) {
-                        lp.setMargins(leftMargin/2, 0, 0, 0);
-                    } else {
-                        lp.setMargins(margin, 0, 0, 0);
+                if(totalLeft > 0) {
+                    int margin = totalLeft / (count - 1);
+                    int leftMargin = totalLeft % (count - 1);
+                    for (int i = 0; i < count; i++) {
+                        LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
+                        if (i == 0) {
+                            lp.setMargins(leftMargin / 2, 0, 0, 0);
+                        } else {
+                            lp.setMargins(margin, 0, 0, 0);
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < count; i++) {
+                        LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
+                        lp.setMargins(0, 0, 0, 0);
                     }
                 }
             }
@@ -236,7 +246,7 @@ public class SideBar extends LinearLayout {
 
         if(mSelectedView != null) {
             mSelectedView.getHitRect(frame);
-            if(frame.contains(x, y)) {
+            if(contains(frame, x, y)) {
                 return true;
             }
         }
@@ -247,7 +257,7 @@ public class SideBar extends LinearLayout {
             if(v instanceof ImageView && !mDrawableClickable)
                 continue;
             v.getHitRect(frame);
-            if(frame.contains(x, y)) {
+            if(contains(frame, x, y)) {
                 if(mSelectedView != null) {
                     mSelectedView.setSelected(false);
                 }
@@ -260,6 +270,19 @@ public class SideBar extends LinearLayout {
             }
         }
         return true;
+    }
+
+    private boolean contains(Rect frame, int x, int y) {
+        if(frame == null)
+            return false;
+
+        if(getOrientation() == LinearLayout.VERTICAL) {
+            return frame.left < frame.right && frame.top < frame.bottom  // check for empty first
+                    && y >= frame.top && y < frame.bottom;
+        } else {
+            return frame.left < frame.right && frame.top < frame.bottom  // check for empty first
+                    && x >= frame.left && x < frame.right;
+        }
     }
 
     public interface OnSelectedListener{
