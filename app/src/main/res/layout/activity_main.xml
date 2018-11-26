@@ -36,6 +36,7 @@
         app:totalTimes="10"/>
 
     <com.zy.library.widget.BottomBar
+        android:id="@+id/bottombar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -73,5 +74,16 @@
                 />
         </LinearLayout>
     </com.zy.library.widget.BottomBar>
+
+    <com.zy.library.widget.SideBar
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/title"
+        android:orientation="vertical"
+        android:background="@drawable/selector_bg"
+        app:sectionDrawableTop="@mipmap/ic_star"
+        app:sectionBackground="@drawable/selector_circle"
+        app:sectionTextColor="@drawable/selector_color"/>
 
 </RelativeLayout>
