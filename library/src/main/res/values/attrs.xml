@@ -21,6 +21,7 @@
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
+        <attr name="scaleAnim" format="boolean"/>
         <attr name="dividerLineHeight" />
         <attr name="dividerLine" />
     </declare-styleable>

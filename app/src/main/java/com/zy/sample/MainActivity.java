@@ -10,25 +10,27 @@ import com.zy.library.widget.TitleBar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TitleBar mTitleBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TitleBar titleBar = findViewById(R.id.title);
-        titleBar.setLeftClickListener(new View.OnClickListener() {
+        mTitleBar = findViewById(R.id.title);
+        mTitleBar.setLeftClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "点击", Toast.LENGTH_SHORT).show();
             }
         });
-        titleBar.addAction(new TitleBar.ImageAction(R.mipmap.ic_back) {
+        mTitleBar.addAction(new TitleBar.ImageAction(R.mipmap.ic_back) {
             @Override
             public void performAction(View view) {
                 Toast.makeText(MainActivity.this, "图片", Toast.LENGTH_SHORT).show();
             }
         });
-        titleBar.addAction(new TitleBar.TextAction("文字") {
+        mTitleBar.addAction(new TitleBar.TextAction("文字") {
             @Override
             public void performAction(View view) {
                 Toast.makeText(MainActivity.this, "文字", Toast.LENGTH_SHORT).show();
@@ -36,7 +38,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        CountdownTextView tv = findViewById(R.id.textView);
+        final CountdownTextView tv = findViewById(R.id.textView);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tv.start();
+            }
+        });
         tv.setOnCountDownListener(new CountdownTextView.OnCountDownListener() {
 
             @Override
@@ -49,5 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onDo(View v) {
+        mTitleBar.removeActionAt(0);
     }
 }

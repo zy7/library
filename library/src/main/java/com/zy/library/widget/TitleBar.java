@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -25,7 +26,7 @@ import com.zy.library.R;
 import java.util.LinkedList;
 
 /**
- * version:1.0.4
+ * version:1.0.5
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
     private static final int DEFAULT_TITLE_COLOR = Color.WHITE;
@@ -199,11 +200,11 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         setLeftButton(text, null);
     }
 
-    public void setLeftButtonResource(@DrawableRes int d) {
+    public void setLeftDrawable(@DrawableRes int d) {
         setLeftButton(null, d);
     }
 
-    public void setLeftButtonDrawable(Drawable d) {
+    public void setLeftDrawable(Drawable d) {
         setLeftButton(null, d);
     }
 
@@ -229,11 +230,16 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
             mLeftTextView.setVisibility(View.VISIBLE);
         } else if(d != null) {
+            mLeftTextView.setCompoundDrawablePadding(0);
+            mLeftTextView.setText(text);
+            mLeftTextView.setPadding(0, 0, 0, 0);
             mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
             mLeftTextView.setVisibility(View.VISIBLE);
         } else if(!TextUtils.isEmpty(text)) {
-            mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
+            mLeftTextView.setCompoundDrawablePadding(0);
             mLeftTextView.setText(text);
+            mLeftTextView.setPadding(mBtnTextPadding, 0, mBtnTextPadding, 0);
+            mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
             mLeftTextView.setVisibility(View.VISIBLE);
         } else {
             mLeftTextView.setVisibility(View.GONE);

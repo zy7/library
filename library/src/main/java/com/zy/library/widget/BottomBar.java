@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,7 +22,7 @@ import android.widget.LinearLayout;
 import com.zy.library.R;
 
 /**
- * version:1.0.2
+ * version:1.0.3
  */
 public class BottomBar extends LinearLayout implements View.OnClickListener {
 
@@ -43,6 +44,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     @ColorInt
     private int mDividerLine;
 
+    private boolean mItemClickAnim;
+
     private Paint   mPaint;
 
     public BottomBar(Context context) {
@@ -58,6 +61,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
         try {
+            mItemClickAnim = a.getBoolean(R.styleable.BottomBar_scaleAnim, false);
             mDividerLineHeight = a.getDimensionPixelOffset(R.styleable.BottomBar_dividerLineHeight, 0);
             mDividerLine = a.getColor(R.styleable.BottomBar_dividerLine, Color.LTGRAY);
         } catch (Exception e) {
@@ -93,6 +97,23 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
             View v = getChildAt(i);
             v.setTag(i);
             v.setOnClickListener(this);
+            if(mItemClickAnim) {
+                v.setOnTouchListener(new OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        switch (motionEvent.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                view.animate().scaleX((float) 0.9).scaleY((float) 0.9).setDuration(25).start();
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                view.animate().scaleX(1).scaleY(1).setDuration(45).start();
+                                break;
+                        }
+
+                        return false;
+                    }
+                });
+            }
         }
     }
 

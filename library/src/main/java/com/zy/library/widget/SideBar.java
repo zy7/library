@@ -23,7 +23,7 @@ import com.zy.library.widget.square.SquareImageView;
 import com.zy.library.widget.square.SquareTextView;
 
 /**
- * version:1.0.1
+ * version:1.0.2
  */
 public class SideBar extends LinearLayout {
 
@@ -192,12 +192,9 @@ public class SideBar extends LinearLayout {
                 int totalLeft = h - totalH - getPaddingTop() - getPaddingBottom();
                 if(totalLeft > 0) {
                     int margin = totalLeft / (count - 1);
-                    int leftMargin = totalLeft % (count - 1);
                     for (int i = 0; i < count; i++) {
                         LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
-                        if (i == 0) {
-                            lp.setMargins(0, leftMargin / 2, 0, 0);
-                        } else {
+                        if (i > 0) {
                             lp.setMargins(0, margin, 0, 0);
                         }
                     }
@@ -216,12 +213,9 @@ public class SideBar extends LinearLayout {
                 int totalLeft = w - totalW - getPaddingLeft() - getPaddingRight();
                 if(totalLeft > 0) {
                     int margin = totalLeft / (count - 1);
-                    int leftMargin = totalLeft % (count - 1);
                     for (int i = 0; i < count; i++) {
                         LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
-                        if (i == 0) {
-                            lp.setMargins(leftMargin / 2, 0, 0, 0);
-                        } else {
+                        if (i > 0) {
                             lp.setMargins(margin, 0, 0, 0);
                         }
                     }

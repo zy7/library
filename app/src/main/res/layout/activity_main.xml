@@ -25,6 +25,13 @@
         app:dividerLine="@color/colorAccent"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:onClick="onDo"
+        android:text="操作"/>
+
     <com.zy.library.widget.CountdownTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -40,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        app:scaleAnim="true"
         app:dividerLineHeight="1dp"
         app:dividerLine="@color/colorPrimaryDark">
 
