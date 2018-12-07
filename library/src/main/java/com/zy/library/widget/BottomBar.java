@@ -1,5 +1,8 @@
 package com.zy.library.widget;
 
+import android.animation.Keyframe;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -19,10 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.zy.library.R;
-
 /**
- * version:1.0.3
+ * version:1.0.4
  */
 public class BottomBar extends LinearLayout implements View.OnClickListener {
 
@@ -59,11 +60,11 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
+        TypedArray a = context.obtainStyledAttributes(attrs, com.zy.library.R.styleable.BottomBar);
         try {
-            mItemClickAnim = a.getBoolean(R.styleable.BottomBar_scaleAnim, false);
-            mDividerLineHeight = a.getDimensionPixelOffset(R.styleable.BottomBar_dividerLineHeight, 0);
-            mDividerLine = a.getColor(R.styleable.BottomBar_dividerLine, Color.LTGRAY);
+            mItemClickAnim = a.getBoolean(com.zy.library.R.styleable.BottomBar_scaleAnim, false);
+            mDividerLineHeight = a.getDimensionPixelOffset(com.zy.library.R.styleable.BottomBar_dividerLineHeight, 0);
+            mDividerLine = a.getColor(com.zy.library.R.styleable.BottomBar_dividerLine, Color.LTGRAY);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -103,18 +104,30 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
                     public boolean onTouch(View view, MotionEvent motionEvent) {
                         switch (motionEvent.getAction()) {
                             case MotionEvent.ACTION_DOWN:
-                                view.animate().scaleX((float) 0.9).scaleY((float) 0.9).setDuration(25).start();
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                view.animate().scaleX(1).scaleY(1).setDuration(45).start();
+                                createScaleAnim(view).start();
                                 break;
                         }
-
                         return false;
                     }
                 });
             }
         }
+    }
+
+    private ObjectAnimator createScaleAnim(View v) {
+        PropertyValuesHolder scaleXValueHolder = PropertyValuesHolder.ofKeyframe(View.SCALE_X,
+                Keyframe.ofFloat(0f, 1.0f),
+                Keyframe.ofFloat(0.3f, 0.6f),
+                Keyframe.ofFloat(1.0f, 1.0f));
+        PropertyValuesHolder scaleYValueHolder = PropertyValuesHolder.ofKeyframe(View.SCALE_Y,
+                Keyframe.ofFloat(0f, 1.0f),
+                Keyframe.ofFloat(0.3f, 0.6f),
+                Keyframe.ofFloat(1.0f, 1.0f));
+
+        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(v, scaleXValueHolder, scaleYValueHolder);
+        objectAnimator.setDuration(200);
+
+        return objectAnimator;
     }
 
     @Override
