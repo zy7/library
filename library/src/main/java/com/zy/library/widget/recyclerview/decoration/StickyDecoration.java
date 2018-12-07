@@ -88,7 +88,7 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
         if(position < 0)
             return false;
 
-        if(mCurStickyPosition != position) {
+        if(mStickyAdapter.isDataChange() || mCurStickyPosition != position) {
             mCurStickyPosition = position;
             mStickyAdapter.onBindStickyHolder(mStickyHolder, mCurStickyPosition);
             measureLayoutView(parent.getMeasuredWidth(), mStickyHolder.itemView);
@@ -128,6 +128,9 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
     }
 
     public interface Stickyable<VH extends RecyclerView.ViewHolder> {
+        /** 根据数据更新后重置sticky */
+        boolean isDataChange();
+
         /** 获取上一个sticky position */
         int getLastStickyPosition(int position);
 
