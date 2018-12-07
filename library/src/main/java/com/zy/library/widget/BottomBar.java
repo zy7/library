@@ -22,10 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.zy.library.R;
+
 /**
- * version:1.0.4
+ * version:1.0.5
  */
 public class BottomBar extends LinearLayout implements View.OnClickListener {
+
+    private static final int DEFAULT_PRE_LOAD_NUM = 2;
 
     private int mSelectedIndex = -1;
 
@@ -49,6 +53,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
 
     private Paint   mPaint;
 
+    private int mPreLoadFragmentNum;
+
     public BottomBar(Context context) {
         super(context);
         init(context, null);
@@ -62,6 +68,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, com.zy.library.R.styleable.BottomBar);
         try {
+            mPreLoadFragmentNum = a.getInteger(R.styleable.BottomBar_preLoad, DEFAULT_PRE_LOAD_NUM);
             mItemClickAnim = a.getBoolean(com.zy.library.R.styleable.BottomBar_scaleAnim, false);
             mDividerLineHeight = a.getDimensionPixelOffset(com.zy.library.R.styleable.BottomBar_dividerLineHeight, 0);
             mDividerLine = a.getColor(com.zy.library.R.styleable.BottomBar_dividerLine, Color.LTGRAY);
@@ -72,6 +79,9 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
                 a.recycle();
             }
         }
+
+        if(mPreLoadFragmentNum < 0)
+            mPreLoadFragmentNum = 0;
 
         if(mDividerLineHeight > 0) {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -195,16 +205,22 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
 
         if(mFragmentContainer != View.NO_ID) {
             FragmentTransaction ft = mFragmentManager.beginTransaction();
+
+            int fragmentCount = mFragments.length;
+            int start = (index > mPreLoadFragmentNum) ? (index - mPreLoadFragmentNum) : 0;
+            int end   = ((index + mPreLoadFragmentNum + 1) >= fragmentCount) ? fragmentCount : (index + mPreLoadFragmentNum + 1);
+
+            for(int j=start; j<end; j++) {
+                if(mFragments[j] != null && !mFragments[j].isAdded())
+                    ft.add(mFragmentContainer, mFragments[j]).hide(mFragments[j]);
+            }
+
             for(int i=0; i<mFragments.length; i++) {
-                if(i != index
-                        && mFragments[i] != null
+                if(i != index && mFragments[i] != null
                         && mFragments[i].isAdded()
                         && !mFragments[i].isHidden())
                     ft.hide(mFragments[i]);
             }
-
-            if(!mFragments[index].isAdded())
-                ft.add(mFragmentContainer, mFragments[index]);
 
             ft.show(mFragments[index]);
             ft.commit();
@@ -292,7 +308,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
 
     private void initViewPager() {
         mViewPager.setAdapter(new TabAdapter(mFragmentManager, mFragments));
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(mPreLoadFragmentNum);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
