@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -61,21 +62,25 @@ public class SideBar extends LinearLayout {
     }
 
     public SideBar(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public SideBar(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     private void init(Context ctx, AttributeSet attrs) {
-        TypedArray a = ctx.obtainStyledAttributes(attrs, R.styleable.SideBar);
+        TypedArray a = ctx.obtainStyledAttributes(attrs, com.zy.library.R.styleable.SideBar);
         try {
-            mSectionBackground = a.getDrawable(R.styleable.SideBar_sectionBackground);
-            mSectionDrawableTop = a.getDrawable(R.styleable.SideBar_sectionDrawableTop);
-            mDrawableClickable = a.getBoolean(R.styleable.SideBar_sectionDrawableClickable, false);
-            mSectionTextColor = a.getColorStateList(R.styleable.SideBar_sectionTextColor);
-            mSectionTextSize = a.getDimension(R.styleable.SideBar_sectionTextSize, DEFAULT_TEXT_SIZE);
-            mSectionTextPadding = a.getDimensionPixelOffset(R.styleable.SideBar_sectionTextPadding, DEFAULT_TEXT_PADDING);
-            mSectionMargin = a.getDimensionPixelOffset(R.styleable.SideBar_sectionMargin, DEFAULT_TEXT_MARGIN);
-            mSectionTextArray = a.getTextArray(R.styleable.SideBar_sectionTextArray);
+            mSectionBackground = a.getDrawable(com.zy.library.R.styleable.SideBar_sectionBackground);
+            mSectionDrawableTop = a.getDrawable(com.zy.library.R.styleable.SideBar_sectionDrawableTop);
+            mDrawableClickable = a.getBoolean(com.zy.library.R.styleable.SideBar_sectionDrawableClickable, false);
+            mSectionTextColor = a.getColorStateList(com.zy.library.R.styleable.SideBar_sectionTextColor);
+            mSectionTextSize = a.getDimension(com.zy.library.R.styleable.SideBar_sectionTextSize, DEFAULT_TEXT_SIZE);
+            mSectionTextPadding = a.getDimensionPixelOffset(com.zy.library.R.styleable.SideBar_sectionTextPadding, DEFAULT_TEXT_PADDING);
+            mSectionMargin = a.getDimensionPixelOffset(com.zy.library.R.styleable.SideBar_sectionMargin, DEFAULT_TEXT_MARGIN);
+            mSectionTextArray = a.getTextArray(com.zy.library.R.styleable.SideBar_sectionTextArray);
         } catch (Exception ignore) {
             ignore.printStackTrace();
         } finally {
@@ -97,7 +102,7 @@ public class SideBar extends LinearLayout {
         }
         if(mSectionTextArray == null) {
             try {
-                mSectionTextArray = getResources().getTextArray(R.array.all_letters);
+                mSectionTextArray = getResources().getTextArray(com.zy.library.R.array.all_letters);
             } catch (Resources.NotFoundException e) {
                 mSectionTextArray = null;
                 e.printStackTrace();
@@ -134,6 +139,10 @@ public class SideBar extends LinearLayout {
             }
         }
         return lp;
+    }
+
+    public void setSectionTextColorResource(@ColorRes int color) {
+        setSectionTextColor(getContext().getResources().getColorStateList(color));
     }
 
     public void setSectionTextColor(@ColorInt int color) {
