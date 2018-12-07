@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -23,7 +24,7 @@ import com.zy.library.widget.square.SquareImageView;
 import com.zy.library.widget.square.SquareTextView;
 
 /**
- * version:1.0.2
+ * version:1.0.3
  */
 public class SideBar extends LinearLayout {
 
@@ -133,6 +134,48 @@ public class SideBar extends LinearLayout {
             }
         }
         return lp;
+    }
+
+    public void setSectionTextColor(@ColorInt int color) {
+        setSectionTextColor(ColorStateList.valueOf(color));
+    }
+
+    public void setSectionTextColor(ColorStateList sectionTextColor) {
+        mSectionTextColor = sectionTextColor;
+        final int count = getChildCount();
+        for(int i=0; i<count; i++) {
+            View v = getChildAt(i);
+            if(v instanceof TextView)
+                ((TextView) v).setTextColor(sectionTextColor);
+        }
+    }
+
+    public void setSectionBackground(@DrawableRes int sectionBackground) {
+        setSectionBackground(getContext().getResources().getDrawable(sectionBackground));
+    }
+
+    public void setSectionBackground(Drawable sectionBackground) {
+        mSectionBackground = sectionBackground;
+        final int count = getChildCount();
+        for(int i=0; i<count; i++) {
+            View v = getChildAt(i);
+            if(v instanceof TextView)
+                v.setBackgroundDrawable(sectionBackground.getConstantState().newDrawable());
+        }
+    }
+
+    public void setSectionDrawableTop(@DrawableRes int drawableTop) {
+        setSectionDrawableTop(getContext().getResources().getDrawable(drawableTop));
+    }
+
+    public void setSectionDrawableTop(Drawable drawableTop) {
+        mSectionDrawableTop = drawableTop;
+        final int count = getChildCount();
+        if(count > 1) {
+            View v = getChildAt(0);
+            if(v instanceof ImageView)
+                ((ImageView)v).setImageDrawable(drawableTop);
+        }
     }
 
     private TextView createTextSection() {
