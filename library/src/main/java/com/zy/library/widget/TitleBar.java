@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -439,14 +438,14 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         if (action instanceof ImageAction) {
             ImageAction ia = (ImageAction) action;
             ImageView img = new ImageView(getContext());
-            img.setImageResource(ia.getDrawable());
+            img.setImageResource(ia.getDrawableRes());
             img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             view = img;
         } else if(action instanceof TextAction) {
             TextAction ta = (TextAction) action;
             TextView text = new TextView(getContext());
             text.setGravity(Gravity.CENTER);
-            text.setText(ta.getText());
+            text.setText(ta.getText(getContext()));
             if(ta.getTextSize() > 0) {
                 text.setTextSize(ta.getTextSize());
             } else {
@@ -574,34 +573,48 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     public static abstract class ImageAction implements Action {
-        final private int mDrawable;
+        final private int mDrawableRes;
 
-        public ImageAction(int drawable) {
-            mDrawable = drawable;
+        public ImageAction(@DrawableRes int drawableRes) {
+            mDrawableRes = drawableRes;
         }
 
-        public int getDrawable() {
-            return mDrawable;
+        public int getDrawableRes() {
+            return mDrawableRes;
         }
     }
 
     public static abstract class TextAction implements Action {
         final private String mText;
+        final private @StringRes int mTextRes;
         final private float mTextSize; // 单位sp
         final private @ColorInt int mTextColor;
 
         public TextAction(String text) {
-            this(text, 0, 0);
+            this(text, 0, 0, 0);
         }
 
-        public TextAction(String text, float textSizeSP, int textColor) {
+        public TextAction(@StringRes int text) {
+            this(null, text, 0, 0);
+        }
+
+        public TextAction(String text, @StringRes int textRes, float textSizeSP, @ColorInt int textColor) {
             mText = text;
+            mTextRes = textRes;
             mTextSize = textSizeSP;
             mTextColor = textColor;
         }
 
         public String getText() {
-            return mText;
+            return getText(null);
+        }
+
+        public String getText(Context ctx) {
+            if(ctx == null || mTextRes == 0) {
+                return mText;
+            } else {
+                return ctx.getResources().getString(mTextRes);
+            }
         }
 
         public float getTextSize() {
