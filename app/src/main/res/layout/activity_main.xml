@@ -31,6 +31,13 @@
         android:layout_marginTop="50dp"
         android:onClick="onDo"
         android:text="操作"/>
+    
+    <com.zy.library.widget.XEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:maxLength="2"
+        />
 
     <com.zy.library.widget.CountdownTextView
         android:id="@+id/textView"
